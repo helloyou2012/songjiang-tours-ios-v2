@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="2057" systemVersion="12D78" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="Viewport" representedClassName="Viewport" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="lat" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="lng" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="time" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="vaddress" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="vcontent" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="vhomepage" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="vlabel" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="vphoneNumber" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="vprice" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="vsmallImage" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="vtitle" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="vtype" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <relationship name="vbigImage" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ViewportImage" inverseName="viewport" inverseEntity="ViewportImage" syncable="YES"/>
+    </entity>
+    <entity name="ViewportImage" representedClassName="ViewportImage" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="imageUrl" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="viewport" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Viewport" inverseName="vbigImage" inverseEntity="Viewport" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Viewport" positionX="160" positionY="192" width="128" height="253"/>
+        <element name="ViewportImage" positionX="385" positionY="243" width="128" height="88"/>
+    </elements>
+</model>
