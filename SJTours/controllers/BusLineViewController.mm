@@ -298,8 +298,15 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [_mapView viewWillAppear];
     _mapView.delegate = self;
     _search.delegate = self;
+}
+
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [_mapView viewWillDisappear];
+    _mapView.delegate=self;
 }
 
 - (void)viewDidUnload

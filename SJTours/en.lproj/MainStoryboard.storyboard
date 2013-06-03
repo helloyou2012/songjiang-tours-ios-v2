@@ -123,6 +123,11 @@
                         <rect key="frame" x="0.0" y="64" width="320" height="367"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" id="Lnz-dX-gDr" customClass="BMKMapView">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="367"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            </view>
                             <view contentMode="scaleToFill" id="ZbL-ws-v0P">
                                 <rect key="frame" x="0.0" y="367" width="0.0" height="0.0"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -133,6 +138,7 @@
                     <navigationItem key="navigationItem" id="KCE-S2-U5r"/>
                     <connections>
                         <outlet property="backView" destination="ZbL-ws-v0P" id="dx3-us-P5X"/>
+                        <outlet property="mapView" destination="Lnz-dX-gDr" id="BIv-fj-l1r"/>
                         <segue destination="RXB-6B-gsO" kind="push" identifier="gotoViewport" id="Uxi-36-NKy"/>
                         <segue destination="1pI-PP-HPG" kind="modal" identifier="gotoSearchLine" modalTransitionStyle="coverVertical" id="NYg-AB-b5l"/>
                         <segue destination="rJV-Bb-e4U" kind="modal" identifier="gotoCompass" modalTransitionStyle="flipHorizontal" id="NCS-X2-ehS"/>
@@ -477,10 +483,18 @@
                     <view key="view" contentMode="scaleToFill" id="sOw-KK-yhP">
                         <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" id="1bY-o6-tby" customClass="BMKMapView">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="P8n-cD-KQk"/>
                     <connections>
+                        <outlet property="mapView" destination="1bY-o6-tby" id="jKo-8G-wnB"/>
                         <segue destination="1pI-PP-HPG" kind="modal" identifier="gotoRouteSearch" modalTransitionStyle="coverVertical" id="gR0-V1-YgE"/>
                     </connections>
                 </viewController>
@@ -1068,6 +1082,9 @@
         <image name="nav_bar_shadow.png" width="320" height="6"/>
     </resources>
     <classes>
+        <class className="BMKMapView" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/BMKMapView.h"/>
+        </class>
         <class className="BusLineViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/BusLineViewController.h"/>
             <relationships>
@@ -1096,6 +1113,7 @@
                 <relationship kind="action" name="viewDetailClicked:"/>
                 <relationship kind="action" name="viewRouteClicked:"/>
                 <relationship kind="outlet" name="backView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="mapView" candidateClass="BMKMapView"/>
             </relationships>
         </class>
         <class className="FeedBackViewController" superclassName="UIViewController">
@@ -1164,6 +1182,9 @@
         </class>
         <class className="JingdianMapViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/JingdianMapViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="mapView" candidateClass="BMKMapView"/>
+            </relationships>
         </class>
         <class className="JingdianViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/JingdianViewController.h"/>
@@ -1263,7 +1284,7 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="NYg-AB-b5l"/>
-        <segue reference="Uxi-36-NKy"/>
+        <segue reference="zBl-3a-Rhe"/>
+        <segue reference="gR0-V1-YgE"/>
     </inferredMetricsTieBreakers>
 </document>

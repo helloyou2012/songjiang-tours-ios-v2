@@ -15,7 +15,7 @@
 @interface JingdianMapViewController : UIViewController<BMKMapViewDelegate,MenuGroupViewDelegate,BMKSearchDelegate>
 
 @property (nonatomic, strong) NSDictionary *curData;
-@property (nonatomic, strong) BMKMapView *mapView;
+@property (nonatomic, strong) IBOutlet BMKMapView *mapView;
 @property (nonatomic, strong) ViewportAnnotation *annotation;
 @property (nonatomic, strong) UIView *searchPoiView;
 @property (nonatomic, strong) UIButton *searchPoiBtn;

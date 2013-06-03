@@ -40,19 +40,15 @@
     _annotationArray=[[NSMutableArray alloc] init];
     _publicRequest=[[PublicPlaceRequest alloc] init];
     _publicRequest.delegate=self;
-    
     _public_manager=[PublicPlaceModelManager sharedInstance];
     
-    _mapView = [[BMKMapView alloc]initWithFrame:self.view.bounds];
-    _mapView.delegate=self;
-    [self.view addSubview:_mapView];
     [self.view bringSubviewToFront:_backView];
     [self registerForKeyboardNotifications];
     
     self.navigationItem.leftBarButtonItem=[self createLeftBarButtonItem];
     self.navigationItem.rightBarButtonItem=[self createRightBarButtonItem];
     
-    _compassBtn=[[UIButton alloc] initWithFrame:CGRectMake(10, 10, 41, 41)];
+    _compassBtn=[[UIButton alloc] initWithFrame:CGRectMake(320-51, 10, 41, 41)];
     [_compassBtn setImage:[UIImage imageNamed:@"button_my_location_compass_mode"] forState:UIControlStateNormal];
     [_compassBtn showsTouchWhenHighlighted];
     [_compassBtn addTarget:self action:@selector(compassBtnClicked) forControlEvents:UIControlEventTouchUpInside];
@@ -81,6 +77,8 @@
 
 - (void)viewWillDisappear:(BOOL)animated{
     [_jingdianRequest.connection cancel];
+    [_mapView viewWillDisappear];
+    _mapView.delegate=nil;
 }
 
 - (UIBarButtonItem*)createLeftBarButtonItem{
@@ -183,13 +181,10 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    [_mapView viewWillAppear];
     [_mapView setShowsUserLocation:YES];
-    _mapView.frame=self.view.bounds;
+    _mapView.delegate=self;
     self.navigationItem.title=@"";
-}
-
--(void)viewDidDisappear:(BOOL)animated{
-    _mapView.showsUserLocation=NO;
 }
 
 // Call this method somewhere in your view controller setup code.
@@ -278,7 +273,8 @@
 }
 
 - (void)createPublicPlace:(NSArray*)dataArray{
-    [_mapView removeAnnotations:_annotationArray];
+    NSArray* array = [NSArray arrayWithArray:_mapView.annotations];
+	[_mapView removeAnnotations:array];
     [_annotationArray removeAllObjects];
     
     CLLocationCoordinate2D curLacation=CLLocationCoordinate2DMake(31, 121.24);

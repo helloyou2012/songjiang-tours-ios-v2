@@ -270,8 +270,8 @@
 		DD4EF1F0174E322E00F47DF3 /* PopView.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4EF1EE174E322E00F47DF3 /* PopView.m */; };
 		DD4EF1F2174E360200F47DF3 /* ShareSDKiPhoneSimpleShareViewUI.bundle in Resources */ = {isa = PBXBuildFile; fileRef = DD4EF1F1174E360200F47DF3 /* ShareSDKiPhoneSimpleShareViewUI.bundle */; };
 		DD4EF1F3174E360200F47DF3 /* ShareSDKiPhoneSimpleShareViewUI.bundle in Resources */ = {isa = PBXBuildFile; fileRef = DD4EF1F1174E360200F47DF3 /* ShareSDKiPhoneSimpleShareViewUI.bundle */; };
-		DD4EF1F7174E7ACB00F47DF3 /* JingdianMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4EF1F6174E7ACA00F47DF3 /* JingdianMapViewController.m */; };
-		DD4EF1F8174E7ACB00F47DF3 /* JingdianMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4EF1F6174E7ACA00F47DF3 /* JingdianMapViewController.m */; };
+		DD4EF1F7174E7ACB00F47DF3 /* JingdianMapViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = DD4EF1F6174E7ACA00F47DF3 /* JingdianMapViewController.mm */; };
+		DD4EF1F8174E7ACB00F47DF3 /* JingdianMapViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = DD4EF1F6174E7ACA00F47DF3 /* JingdianMapViewController.mm */; };
 		DD4EF1FC174E82F300F47DF3 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DD4EF1F9174E82F300F47DF3 /* Default-568h@2x.png */; };
 		DD4EF1FD174E82F300F47DF3 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DD4EF1F9174E82F300F47DF3 /* Default-568h@2x.png */; };
 		DD4EF1FE174E82F300F47DF3 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = DD4EF1FA174E82F300F47DF3 /* Default.png */; };
@@ -342,7 +342,7 @@
 		DD66107C171BCB4500117966 /* UIImageView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = DD661067171BCB4500117966 /* UIImageView+WebCache.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		DD66107D171BCB4500117966 /* MWPhotoBrowser.bundle in Resources */ = {isa = PBXBuildFile; fileRef = DD661069171BCB4500117966 /* MWPhotoBrowser.bundle */; };
 		DD661082171BCBFA00117966 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD661081171BCBFA00117966 /* MessageUI.framework */; };
-		DD6610B6171DBA4900117966 /* DituViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD6610B5171DBA4900117966 /* DituViewController.m */; };
+		DD6610B6171DBA4900117966 /* DituViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = DD6610B5171DBA4900117966 /* DituViewController.mm */; };
 		DD74603D1725AD3F0023AB69 /* JingdianViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD74603C1725AD3F0023AB69 /* JingdianViewController.m */; };
 		DD7460411725B4470023AB69 /* ViewSpotsModelManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DD7460401725B4470023AB69 /* ViewSpotsModelManager.m */; };
 		DD7460441725B6EB0023AB69 /* JingdianCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DD7460431725B6EB0023AB69 /* JingdianCell.m */; };
@@ -862,7 +862,7 @@
 		DD4EF1EE174E322E00F47DF3 /* PopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopView.m; sourceTree = "<group>"; };
 		DD4EF1F1174E360200F47DF3 /* ShareSDKiPhoneSimpleShareViewUI.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ShareSDKiPhoneSimpleShareViewUI.bundle; sourceTree = "<group>"; };
 		DD4EF1F5174E7ACA00F47DF3 /* JingdianMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JingdianMapViewController.h; sourceTree = "<group>"; };
-		DD4EF1F6174E7ACA00F47DF3 /* JingdianMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JingdianMapViewController.m; sourceTree = "<group>"; };
+		DD4EF1F6174E7ACA00F47DF3 /* JingdianMapViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = JingdianMapViewController.mm; sourceTree = "<group>"; };
 		DD4EF1F9174E82F300F47DF3 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		DD4EF1FA174E82F300F47DF3 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		DD4EF1FB174E82F300F47DF3 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
@@ -971,7 +971,7 @@
 		DD661069171BCB4500117966 /* MWPhotoBrowser.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MWPhotoBrowser.bundle; sourceTree = "<group>"; };
 		DD661081171BCBFA00117966 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		DD6610B4171DBA4900117966 /* DituViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DituViewController.h; sourceTree = "<group>"; };
-		DD6610B5171DBA4900117966 /* DituViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DituViewController.m; sourceTree = "<group>"; };
+		DD6610B5171DBA4900117966 /* DituViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DituViewController.mm; sourceTree = "<group>"; };
 		DD74603B1725AD3F0023AB69 /* JingdianViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JingdianViewController.h; sourceTree = "<group>"; };
 		DD74603C1725AD3F0023AB69 /* JingdianViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JingdianViewController.m; sourceTree = "<group>"; };
 		DD74603F1725B4470023AB69 /* ViewSpotsModelManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewSpotsModelManager.h; sourceTree = "<group>"; };
@@ -1893,7 +1893,7 @@
 				DD66102D171BC55100117966 /* YinxiangViewController.h */,
 				DD66102E171BC55100117966 /* YinxiangViewController.m */,
 				DD6610B4171DBA4900117966 /* DituViewController.h */,
-				DD6610B5171DBA4900117966 /* DituViewController.m */,
+				DD6610B5171DBA4900117966 /* DituViewController.mm */,
 				DD068DA2171F160E00434011 /* DaolanViewController.h */,
 				DD068DA3171F160E00434011 /* DaolanViewController.m */,
 				DD4A86CC17203FB200F2C1DF /* MoreViewController.h */,
@@ -1931,7 +1931,7 @@
 				DD121707174D599E00751F13 /* FeedBackViewController.h */,
 				DD121708174D599E00751F13 /* FeedBackViewController.m */,
 				DD4EF1F5174E7ACA00F47DF3 /* JingdianMapViewController.h */,
-				DD4EF1F6174E7ACA00F47DF3 /* JingdianMapViewController.m */,
+				DD4EF1F6174E7ACA00F47DF3 /* JingdianMapViewController.mm */,
 				DDFBDA0D175608D00053CD31 /* CompassViewController.h */,
 				DDFBDA0E175608D00053CD31 /* CompassViewController.m */,
 			);
@@ -2872,7 +2872,7 @@
 				DD66107A171BCB4500117966 /* SDWebImagePrefetcher.m in Sources */,
 				DD66107B171BCB4500117966 /* UIButton+WebCache.m in Sources */,
 				DD66107C171BCB4500117966 /* UIImageView+WebCache.m in Sources */,
-				DD6610B6171DBA4900117966 /* DituViewController.m in Sources */,
+				DD6610B6171DBA4900117966 /* DituViewController.mm in Sources */,
 				DD068D94171E919A00434011 /* YinXiangModelManager.m in Sources */,
 				DD068D97171E94EC00434011 /* YinXiangRequest.m in Sources */,
 				DD068DA4171F160E00434011 /* DaolanViewController.m in Sources */,
@@ -2968,7 +2968,7 @@
 				DD4EF1E3174E04BF00F47DF3 /* TCWBEngine.m in Sources */,
 				DD4EF1E5174E04BF00F47DF3 /* TCWBRequest.m in Sources */,
 				DD4EF1EF174E322E00F47DF3 /* PopView.m in Sources */,
-				DD4EF1F7174E7ACB00F47DF3 /* JingdianMapViewController.m in Sources */,
+				DD4EF1F7174E7ACB00F47DF3 /* JingdianMapViewController.mm in Sources */,
 				DDFBDA0F175608D10053CD31 /* CompassViewController.m in Sources */,
 				DDA4C0A1175673930085CE30 /* PublicPlaceRequest.m in Sources */,
 				DDA4C0A4175678140085CE30 /* PublicPlaceModelManager.m in Sources */,
@@ -3017,7 +3017,7 @@
 				DD4EF1E4174E04BF00F47DF3 /* TCWBEngine.m in Sources */,
 				DD4EF1E6174E04BF00F47DF3 /* TCWBRequest.m in Sources */,
 				DD4EF1F0174E322E00F47DF3 /* PopView.m in Sources */,
-				DD4EF1F8174E7ACB00F47DF3 /* JingdianMapViewController.m in Sources */,
+				DD4EF1F8174E7ACB00F47DF3 /* JingdianMapViewController.mm in Sources */,
 				DD1C6BD3175B786800385C3B /* Reachability.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3129,8 +3129,8 @@
 		DD660FB11716858500117966 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Yue Li (98ZU44J2H5)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Yue Li (98ZU44J2H5)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Yue Li (NCDMTPJUYZ)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Yue Li (NCDMTPJUYZ)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SJTours/SJTours-Prefix.pch";
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/inc/";
@@ -3149,8 +3149,8 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "D0FD6E54-C824-4D50-9649-C18BA0D08083";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "D0FD6E54-C824-4D50-9649-C18BA0D08083";
+				PROVISIONING_PROFILE = "FCD12AA7-516C-4E27-9A71-4FBEAECD1FD1";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "FCD12AA7-516C-4E27-9A71-4FBEAECD1FD1";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -3158,8 +3158,8 @@
 		DD660FB21716858500117966 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Yue Li (98ZU44J2H5)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Yue Li (98ZU44J2H5)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Yue Li (NCDMTPJUYZ)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Yue Li (NCDMTPJUYZ)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SJTours/SJTours-Prefix.pch";
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/inc/";
@@ -3178,8 +3178,8 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "D0FD6E54-C824-4D50-9649-C18BA0D08083";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "D0FD6E54-C824-4D50-9649-C18BA0D08083";
+				PROVISIONING_PROFILE = "FCD12AA7-516C-4E27-9A71-4FBEAECD1FD1";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "FCD12AA7-516C-4E27-9A71-4FBEAECD1FD1";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

@@ -18,7 +18,7 @@
 
 @interface DituViewController : UIViewController<BMKMapViewDelegate,MenuGroupViewDelegate,UITextFieldDelegate,JingdianRequestDelegage,PublicPlaceRequestDelegage>
 
-@property (nonatomic, strong) BMKMapView *mapView;
+@property (nonatomic, strong) IBOutlet BMKMapView *mapView;
 @property (nonatomic, assign) BOOL isSetMapSpan;
 @property (nonatomic, strong) SearchTextField *searchTextField;
 @property (nonatomic, strong) UIButton *backBtn;

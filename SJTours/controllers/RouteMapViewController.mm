@@ -101,6 +101,9 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    [_mapView viewWillAppear];
+    _mapView.delegate=self;
+    
     [self loadScrollViewWithPage:_currentPage-1];
     [self loadScrollViewWithPage:_currentPage];
     [self loadScrollViewWithPage:_currentPage+1];
@@ -121,6 +124,12 @@
             break;
     }
     _isExpand=NO;
+}
+
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [_mapView viewWillDisappear];
+    _mapView.delegate=nil;
 }
 
 - (IBAction)cancelClicked:(id)sender{

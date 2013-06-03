@@ -35,12 +35,9 @@
 {
     [super viewDidLoad];
     self.title=[_curData objectForKey:@"vtitle"];
-    _annotation=[[ViewportAnnotation alloc] initWith:_curData];
     
-    _mapView = [[BMKMapView alloc]initWithFrame:self.view.bounds];
     _mapView.delegate=self;
-    [_mapView setShowsUserLocation:YES];
-    [self.view addSubview:_mapView];
+    _annotation=[[ViewportAnnotation alloc] initWith:_curData];
     [_mapView addAnnotation:_annotation];
     [_mapView setCenterCoordinate:_annotation.coordinate];
     
@@ -67,6 +64,14 @@
         [self createSearchMainView];
     }
     _search.delegate=self;
+    [_mapView viewWillAppear];
+    _mapView.delegate=self;
+    [_mapView setShowsUserLocation:YES];
+}
+
+- (void)viewWillDisappear:(BOOL)animated{
+    [_mapView viewWillDisappear];
+    _mapView.delegate=nil;
 }
 
 - (void)createSearchMainView{
