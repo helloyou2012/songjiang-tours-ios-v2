@@ -56,7 +56,7 @@
     
     [self createSearchMainView];
     
-    _manager=[[ViewSpotsModelManager alloc] initWith:@"search-viewports.plist"];
+    _manager=[[ViewSpotsModelManager alloc] initWith:@"search-viewports"];
     _jingdianRequest=[[JingdianRequest alloc] init];
     _jingdianRequest.delegate=self;
     
