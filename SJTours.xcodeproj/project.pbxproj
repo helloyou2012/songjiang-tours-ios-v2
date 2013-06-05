@@ -3136,13 +3136,7 @@
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/inc/";
 				INFOPLIST_FILE = "SJTours/SJTours-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)\"",
-					"\"$(SDKROOT)/usr/lib/system\"",
-					"\"$(SRCROOT)/libs/Release-iphoneos\"",
-					"\"$(SRCROOT)/libs/Release-iphonesimulator\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/libs/Release$(EFFECTIVE_PLATFORM_NAME)";
 				OTHER_LDFLAGS = (
 					"-all_load",
 					"-licucore",
@@ -3165,13 +3159,7 @@
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/inc/";
 				INFOPLIST_FILE = "SJTours/SJTours-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)\"",
-					"\"$(SDKROOT)/usr/lib/system\"",
-					"\"$(SRCROOT)/libs/Release-iphoneos\"",
-					"\"$(SRCROOT)/libs/Release-iphonesimulator\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/libs/Release$(EFFECTIVE_PLATFORM_NAME)";
 				OTHER_LDFLAGS = (
 					"-all_load",
 					"-licucore",
