@@ -65,7 +65,7 @@
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     if (self.timer==nil) {
-        self.timer=[NSTimer scheduledTimerWithTimeInterval:15.0f target:self selector:@selector(switchImages) userInfo:nil repeats:YES];
+        self.timer=[NSTimer scheduledTimerWithTimeInterval:10.0f target:self selector:@selector(switchImages) userInfo:nil repeats:YES];
     }
 }
 
