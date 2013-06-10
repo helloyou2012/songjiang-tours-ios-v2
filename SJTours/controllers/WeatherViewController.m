@@ -26,7 +26,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
-    _imageList=[[NSMutableArray alloc] initWithObjects:@"show_image_1.jpg", @"show_image_2.jpg", @"show_image_3.png", @"show_image_4.jpg", nil];
+    _imageList=[[NSMutableArray alloc] initWithObjects:@"show_image_1.png", @"show_image_2.png", @"show_image_3.png", @"show_image_4.png", nil];
     [self createGradientBackground:self.view.bounds with:[_imageList objectAtIndex:0]];
     page=1;
     
