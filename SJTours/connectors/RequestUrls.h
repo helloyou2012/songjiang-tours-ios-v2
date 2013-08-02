@@ -19,4 +19,5 @@
 + (NSString*)newsList;
 + (NSString*)strategyList;
 + (NSString*)publicPlaceList;
++ (NSString*)appList;
 @end

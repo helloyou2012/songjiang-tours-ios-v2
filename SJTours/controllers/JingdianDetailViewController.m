@@ -17,6 +17,7 @@
 #import "ViewportImage.h"
 #import "SVProgressHUD.h"
 #import "PopView.h"
+#import <QuartzCore/QuartzCore.h>
 
 #define BAR_HEIGHT 46.0f
 #define PADDING 15.0f
@@ -120,6 +121,12 @@
     
     //图片
     _bigImageButton=[[UIButton alloc] initWithFrame:CGRectMake(PADDING, curY, 320-2*PADDING, 200.0f)];
+    [[_bigImageButton layer] setBorderWidth:5.0f];
+    [[_bigImageButton layer] setBorderColor:[UIColor whiteColor].CGColor];
+    [_bigImageButton.layer setShadowOffset:CGSizeMake(0, 0)];
+    [_bigImageButton.layer setShadowColor:[[UIColor blackColor] CGColor]];
+    [_bigImageButton.layer setShadowOpacity:0.3];
+    [_bigImageButton.layer setShadowRadius:1.0f];
     [_bigImageButton addTarget:self action:@selector(openImagesView) forControlEvents:UIControlEventTouchUpInside];
     
     NSArray *vbigImages=[_curData objectForKey:@"vbigImage"];
@@ -297,18 +304,25 @@
     AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     if (buttonIndex == 0) {
         //新浪
+        _popView.titleLabel.text=@"新浪微博";
         if ([delegate.sinaweibo isAuthValid]) {
-            _popView.titleLabel.text=@"新浪微博";
             [_popView showInView:nil];
         }else{
-            [SVProgressHUD showErrorWithStatus:@"亲，请先绑定新浪微博哦！"];
+            //[SVProgressHUD showErrorWithStatus:@"亲，请先绑定新浪微博哦！"];
+            SinaWeibo *sinaweibo = [self sinaweibo];
+            [sinaweibo logIn];
         }
     }else if (buttonIndex == 1) {
         //腾讯
+        _popView.titleLabel.text=@"腾讯微博";
         if ([delegate.txweibo isAuthorizeExpired]) {
-            [SVProgressHUD showErrorWithStatus:@"亲，请先绑定新浪微博哦！"];
+            //[SVProgressHUD showErrorWithStatus:@"亲，请先绑定新浪微博哦！"];
+            TCWBEngine *txweibo = [self txweibo];
+            [txweibo logInWithDelegate:self
+                             onSuccess:@selector(onSuccessLogin)
+                             onFailure:@selector(onFailureLogin:)];
         }else{
-            _popView.titleLabel.text=@"腾讯微博";
+            
             [_popView showInView:nil];
         }
     }
@@ -430,10 +444,33 @@
 - (void)openImagesView{
     NSArray *vbigImages=[_curData objectForKey:@"vbigImage"];
     if (vbigImages!=nil&&vbigImages.count>0) {
-        [self performSegueWithIdentifier:@"gotoImageView" sender:self];
+        //[self performSegueWithIdentifier:@"gotoImageView" sender:self];
+        MWPhotoBrowser *browser = [[MWPhotoBrowser alloc] initWithDelegate:self];
+        browser.displayActionButton = YES;
+        browser.wantsFullScreenLayout = NO;
+        
+        UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:browser];
+        nc.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+        [self presentModalViewController:nc animated:YES];
     }else{
         [SVProgressHUD showErrorWithStatus:@"当前页面不存在图片"];
     }
+}
+
+#pragma mark - MWPhotoBrowserDelegate
+
+- (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser {
+    NSArray *vbigImages=[_curData objectForKey:@"vbigImage"];
+    return vbigImages.count;
+}
+
+- (MWPhoto *)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index {
+    NSArray *vbigImages=[_curData objectForKey:@"vbigImage"];
+    NSDictionary *imageDict=[vbigImages objectAtIndex:index];
+    NSString *url=[NSString stringWithFormat:@"%@%@",[RequestUrls domainUrl],[imageDict objectForKey:@"imageUrl"]];
+    NSURL *imageUrl=[[NSURL alloc] initWithString:url];
+    MWPhoto *photo=[MWPhoto photoWithURL:imageUrl];
+    return photo;
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -490,6 +527,74 @@
         return SmallImage;
     }
     return imageReadyPost;
+}
+
+#pragma mark - SinaWeibo delegate
+
+- (void)removeAuthData
+{
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"SinaWeiboAuthData"];
+}
+
+- (void)storeAuthData
+{
+    SinaWeibo *sinaweibo = [self sinaweibo];
+    NSDictionary *authData = [NSDictionary dictionaryWithObjectsAndKeys:
+                              sinaweibo.accessToken, @"AccessTokenKey",
+                              sinaweibo.expirationDate, @"ExpirationDateKey",
+                              sinaweibo.userID, @"UserIDKey",
+                              sinaweibo.refreshToken, @"refresh_token", nil];
+    [[NSUserDefaults standardUserDefaults] setObject:authData forKey:@"SinaWeiboAuthData"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+- (SinaWeibo *)sinaweibo
+{
+    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    delegate.sinaweibo.delegate=self;
+    return delegate.sinaweibo;
+    
+}
+- (void)sinaweiboDidLogIn:(SinaWeibo *)sinaweibo
+{
+    [self storeAuthData];
+    [_popView showInView:nil];
+}
+
+- (void)sinaweiboDidLogOut:(SinaWeibo *)sinaweibo
+{
+    [self removeAuthData];
+}
+
+- (void)sinaweiboLogInDidCancel:(SinaWeibo *)sinaweibo
+{
+    NSLog(@"sinaweiboLogInDidCancel");
+}
+
+- (void)sinaweibo:(SinaWeibo *)sinaweibo logInDidFailWithError:(NSError *)error{
+    [SVProgressHUD showErrorWithStatus:@"登录失败！"];
+}
+- (void)sinaweibo:(SinaWeibo *)sinaweibo accessTokenInvalidOrExpired:(NSError *)error{
+    [SVProgressHUD showErrorWithStatus:@"账号过期或失效！"];
+}
+
+#pragma mark - TengxunWeibo delegate
+
+- (TCWBEngine*)txweibo{
+    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    [delegate.txweibo setRootViewController:self];
+    return delegate.txweibo;
+}
+
+//登录成功回调
+- (void)onSuccessLogin
+{
+    [_popView showInView:nil];
+}
+
+//登录失败回调
+- (void)onFailureLogin:(NSError *)error
+{
+    [SVProgressHUD showErrorWithStatus:@"登录失败！"];
 }
 
 @end

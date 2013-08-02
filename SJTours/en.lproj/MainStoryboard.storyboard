@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12D78" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="4">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12E55" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="4">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="2083"/>
     </dependencies>
     <scenes>
-        <!--Tab Bar Controller-->
+        <!--Main Tab View Controller-->
         <scene sceneID="15">
             <objects>
-                <tabBarController id="4" sceneMemberID="viewController">
+                <tabBarController id="4" customClass="MainTabViewController" sceneMemberID="viewController">
                     <nil key="simulatedBottomBarMetrics"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="5">
                         <rect key="frame" x="0.0" y="431" width="320" height="49"/>
@@ -125,7 +125,7 @@
                         <subviews>
                             <view contentMode="scaleToFill" id="Lnz-dX-gDr" customClass="BMKMapView">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="367"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
                             <view contentMode="scaleToFill" id="ZbL-ws-v0P">
@@ -176,11 +176,13 @@
                         <segue destination="Nlt-u2-eaa" kind="modal" identifier="gotoTianqi" modalTransitionStyle="crossDissolve" id="TnX-pv-2eb"/>
                         <segue destination="fxV-vw-BSA" kind="push" identifier="gotoChengshi" id="cs5-Ah-4rt"/>
                         <segue destination="qZo-0l-y7q" kind="push" identifier="gotoShoucang" id="3Bw-Bk-Qzj"/>
+                        <segue destination="6Jq-Gh-LAH" kind="push" identifier="gotoJiudian" id="Wf6-EK-iWi"/>
+                        <segue destination="jiE-LU-0E2" kind="push" identifier="gotoCanyin" id="m5E-if-gBs"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="E4W-5R-Qb8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="390" y="862"/>
+            <point key="canvasLocation" x="368" y="862"/>
         </scene>
         <!--Shoucang View Controller - 收藏-->
         <scene sceneID="EPc-pE-syX">
@@ -263,6 +265,144 @@
                 </searchDisplayController>
             </objects>
             <point key="canvasLocation" x="908" y="824"/>
+        </scene>
+        <!--Jiudian View Controller - 酒店-->
+        <scene sceneID="2M3-tv-JJ5">
+            <objects>
+                <tableViewController id="6Jq-Gh-LAH" customClass="JiudianViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="BpP-gP-Nrd">
+                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <segmentedControl key="tableHeaderView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="qZ1-JO-aFF" customClass="SDSegmentedControl">
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <segments>
+                                <segment title="全部"/>
+                                <segment title="佘山地区"/>
+                                <segment title="松江城区"/>
+                                <segment title="浦南乡村"/>
+                                <segment title="其他地区"/>
+                            </segments>
+                            <connections>
+                                <action selector="segmentDidChange:" destination="6Jq-Gh-LAH" eventType="valueChanged" id="9qs-gG-kQ6"/>
+                            </connections>
+                        </segmentedControl>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="gray" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="JingdianCell" rowHeight="70" id="h0X-Iu-uUa" customClass="JingdianCell">
+                                <rect key="frame" x="0.0" y="66" width="320" height="70"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="69"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="C3M-6z-eXM">
+                                            <rect key="frame" x="10" y="9" width="70" height="52"/>
+                                        </imageView>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Q4R-eH-De8">
+                                            <rect key="frame" x="90" y="9" width="220" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </label>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="XZp-a9-zNS">
+                                            <rect key="frame" x="90" y="30" width="220" height="31"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                                <connections>
+                                    <outlet property="gDescription" destination="XZp-a9-zNS" id="ulP-yD-u0M"/>
+                                    <outlet property="gTitle" destination="Q4R-eH-De8" id="2zV-E2-P7c"/>
+                                    <outlet property="smallImage" destination="C3M-6z-eXM" id="8ke-Il-rPP"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="6Jq-Gh-LAH" id="w6g-we-23D"/>
+                            <outlet property="delegate" destination="6Jq-Gh-LAH" id="3uD-Xc-oVf"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="酒店" id="eIh-if-WZH"/>
+                    <connections>
+                        <outlet property="segmentedControl" destination="qZ1-JO-aFF" id="UOX-up-Mxz"/>
+                        <segue destination="RXB-6B-gsO" kind="push" identifier="gotoDetail" id="Ml0-rY-lxM"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="g35-2R-uGJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="919" y="1394"/>
+        </scene>
+        <!--Canyin View Controller - 餐饮-->
+        <scene sceneID="aEi-rj-RRw">
+            <objects>
+                <tableViewController id="jiE-LU-0E2" customClass="CanyinViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="H0L-f2-YzF">
+                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <segmentedControl key="tableHeaderView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="bJZ-h1-7Rd" customClass="SDSegmentedControl">
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <segments>
+                                <segment title="全部"/>
+                                <segment title="特色菜"/>
+                                <segment title="餐饮店"/>
+                            </segments>
+                            <connections>
+                                <action selector="segmentDidChange:" destination="jiE-LU-0E2" eventType="valueChanged" id="MUU-Dz-cmJ"/>
+                            </connections>
+                        </segmentedControl>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="gray" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="JingdianCell" rowHeight="70" id="KXP-yK-EHQ" customClass="JingdianCell">
+                                <rect key="frame" x="0.0" y="66" width="320" height="70"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="69"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="G1i-0m-4vi">
+                                            <rect key="frame" x="10" y="9" width="70" height="52"/>
+                                        </imageView>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="4e5-hZ-DhW">
+                                            <rect key="frame" x="90" y="9" width="220" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </label>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="BEB-Yt-c0N">
+                                            <rect key="frame" x="90" y="30" width="220" height="31"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                                <connections>
+                                    <outlet property="gDescription" destination="BEB-Yt-c0N" id="Y6t-e6-c8Z"/>
+                                    <outlet property="gTitle" destination="4e5-hZ-DhW" id="hcY-P3-lfg"/>
+                                    <outlet property="smallImage" destination="G1i-0m-4vi" id="huQ-5M-vGe"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="jiE-LU-0E2" id="IYy-9G-G3T"/>
+                            <outlet property="delegate" destination="jiE-LU-0E2" id="9Vx-T2-xRB"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="餐饮" id="KB3-ui-PPu"/>
+                    <connections>
+                        <outlet property="segmentedControl" destination="bJZ-h1-7Rd" id="RYA-DG-uBZ"/>
+                        <segue destination="RXB-6B-gsO" kind="push" identifier="gotoDetail" id="kaI-DX-vOx"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="XBk-5A-0VT" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="911" y="2040"/>
         </scene>
         <!--Jingdian View Controller-->
         <scene sceneID="qxL-2D-fUn">
@@ -616,7 +756,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EE1-he-XGD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="903" y="1407"/>
+            <point key="canvasLocation" x="927" y="2743"/>
         </scene>
         <!--Jiaotong Detail View Controller-->
         <scene sceneID="pjc-2j-rE5">
@@ -652,7 +792,7 @@
                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="时间间隔：约15分钟" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="92f-7D-JLU">
+                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="途径：佘山" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="92f-7D-JLU">
                                     <rect key="frame" x="15" y="91" width="290" height="21"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -711,7 +851,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GOM-Le-VyE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1313" y="1407"/>
+            <point key="canvasLocation" x="1337" y="2743"/>
         </scene>
         <!--Bus Line View Controller-->
         <scene sceneID="1IL-dH-QBZ">
@@ -746,7 +886,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PTo-o8-eB6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1736" y="1407"/>
+            <point key="canvasLocation" x="1760" y="2743"/>
         </scene>
         <!--Gonglue View Controller - 攻略-->
         <scene sceneID="Thu-Dv-AwW">
@@ -756,9 +896,22 @@
                         <rect key="frame" x="0.0" y="64" width="320" height="367"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <segmentedControl key="tableHeaderView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="JGT-7m-qaz" customClass="SDSegmentedControl">
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <segments>
+                                <segment title="全部"/>
+                                <segment title="主题游"/>
+                                <segment title="多日游"/>
+                                <segment title="其他"/>
+                            </segments>
+                            <connections>
+                                <action selector="segmentDidChange:" destination="joX-8A-qLN" eventType="valueChanged" id="muX-ce-FQ9"/>
+                            </connections>
+                        </segmentedControl>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="GonglueCell" id="z0U-pL-r1h" customClass="GonglueCell">
-                                <rect key="frame" x="0.0" y="22" width="320" height="70"/>
+                                <rect key="frame" x="0.0" y="66" width="320" height="70"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="69"/>
@@ -799,12 +952,13 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="攻略" id="2Ml-1s-Gwd"/>
                     <connections>
+                        <outlet property="segmentedControl" destination="JGT-7m-qaz" id="TYh-HM-SbG"/>
                         <segue destination="zeK-jg-iNO" kind="push" identifier="gotoDetail" id="o0y-pb-pQI"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WAn-2b-gxm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="918" y="2011"/>
+            <point key="canvasLocation" x="942" y="3347"/>
         </scene>
         <!--Weather View Controller-->
         <scene sceneID="dTc-iW-3s2">
@@ -827,7 +981,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="m2P-VH-v9s" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="911" y="2597"/>
+            <point key="canvasLocation" x="935" y="3933"/>
         </scene>
         <!--Feed Back View Controller - 意见反馈-->
         <scene sceneID="Rkk-ab-IAI">
@@ -885,6 +1039,61 @@
             </objects>
             <point key="canvasLocation" x="150" y="3257"/>
         </scene>
+        <!--Apps View Controller - 应用推荐-->
+        <scene sceneID="Yeq-Pm-OAZ">
+            <objects>
+                <tableViewController id="PuZ-OU-XWt" customClass="AppsViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="70" sectionHeaderHeight="22" sectionFooterHeight="22" id="AL5-lF-55y">
+                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="AppCell" id="UL9-Rg-5oZ" customClass="AppCell">
+                                <rect key="frame" x="0.0" y="22" width="320" height="70"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="69"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="gS7-GK-xWA">
+                                            <rect key="frame" x="8" y="8" width="54" height="54"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        </imageView>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="9gf-fx-GrE">
+                                            <rect key="frame" x="70" y="8" width="242" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </label>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="vl1-qQ-pJf">
+                                            <rect key="frame" x="70" y="29" width="242" height="33"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                                <connections>
+                                    <outlet property="aContent" destination="vl1-qQ-pJf" id="SGf-ya-sgw"/>
+                                    <outlet property="aTitle" destination="9gf-fx-GrE" id="bv5-yD-F9X"/>
+                                    <outlet property="smallImage" destination="gS7-GK-xWA" id="toH-7u-vdU"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="PuZ-OU-XWt" id="d9R-LD-kpE"/>
+                            <outlet property="delegate" destination="PuZ-OU-XWt" id="baU-fc-0Zs"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="应用推荐" id="UPq-kV-NUm"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hm2-AC-UwP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="150" y="3822"/>
+        </scene>
         <!--City View Controller - 城市概况-->
         <scene sceneID="bzO-C7-g32">
             <objects>
@@ -908,7 +1117,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WTt-s3-n6W" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="908" y="3235"/>
+            <point key="canvasLocation" x="932" y="4571"/>
         </scene>
         <!--Gonglue Detail View Controller-->
         <scene sceneID="9Iy-Ns-5KH">
@@ -923,7 +1132,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="z7e-4h-Kfn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1320" y="2011"/>
+            <point key="canvasLocation" x="1344" y="3347"/>
         </scene>
         <!--Zixun Detail View Controller-->
         <scene sceneID="Qu3-up-5Jz">
@@ -991,11 +1200,12 @@
                         <segue destination="PVQ-3X-7Wq" kind="push" identifier="gotoZhanghao" id="dGE-CM-o7X"/>
                         <segue destination="J06-d7-0vT" kind="push" identifier="gotoYijian" id="A2d-z2-xxn"/>
                         <segue destination="ggK-Ek-zjg" kind="push" identifier="gotoGuanyu" id="DWn-QA-2is"/>
+                        <segue destination="PuZ-OU-XWt" kind="push" identifier="gotoApps" id="hcy-mV-K92"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pPN-VC-2uG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-398" y="2107"/>
+            <point key="canvasLocation" x="-470" y="3035"/>
         </scene>
         <!--Sns View Controller - 账号绑定-->
         <scene sceneID="Ony-uW-d7H">
@@ -1050,7 +1260,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UKC-iL-3Fl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-851" y="2074"/>
+            <point key="canvasLocation" x="-899" y="3027"/>
         </scene>
         <!--Navigation Controller - 地图-->
         <scene sceneID="XLa-DX-fTh">
@@ -1065,6 +1275,24 @@
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KKA-YO-mnU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="RDD-lI-11X" customClass="SDSegmentedControl">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <segments>
+                        <segment title="全部"/>
+                        <segment title="特色菜"/>
+                        <segment title="餐饮店"/>
+                    </segments>
+                </segmentedControl>
+                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="JVi-Xh-aVP" customClass="SDSegmentedControl">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <segments>
+                        <segment title="全部"/>
+                        <segment title="特色菜"/>
+                        <segment title="餐饮店"/>
+                    </segments>
+                </segmentedControl>
             </objects>
             <point key="canvasLocation" x="-515" y="-55"/>
         </scene>
@@ -1082,6 +1310,17 @@
         <image name="nav_bar_shadow.png" width="320" height="6"/>
     </resources>
     <classes>
+        <class className="AppCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/AppCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="aContent" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="aTitle" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="smallImage" candidateClass="UIImageView"/>
+            </relationships>
+        </class>
+        <class className="AppsViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/AppsViewController.h"/>
+        </class>
         <class className="BMKMapView" superclassName="UIView">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/BMKMapView.h"/>
         </class>
@@ -1090,6 +1329,13 @@
             <relationships>
                 <relationship kind="action" name="backToDetail:"/>
                 <relationship kind="outlet" name="backBtn" candidateClass="UIButton"/>
+            </relationships>
+        </class>
+        <class className="CanyinViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/CanyinViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="segmentDidChange:"/>
+                <relationship kind="outlet" name="segmentedControl" candidateClass="SDSegmentedControl"/>
             </relationships>
         </class>
         <class className="CityViewController" superclassName="UIViewController">
@@ -1137,6 +1383,10 @@
         </class>
         <class className="GonglueViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/GonglueViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="segmentDidChange:"/>
+                <relationship kind="outlet" name="segmentedControl" candidateClass="SDSegmentedControl"/>
+            </relationships>
         </class>
         <class className="ImageTableViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/ImageTableViewController.h"/>
@@ -1189,11 +1439,21 @@
         <class className="JingdianViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/JingdianViewController.h"/>
         </class>
+        <class className="JiudianViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/JiudianViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="segmentDidChange:"/>
+                <relationship kind="outlet" name="segmentedControl" candidateClass="SDSegmentedControl"/>
+            </relationships>
+        </class>
         <class className="KTTextView" superclassName="UITextView">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/KTTextView.h"/>
         </class>
         <class className="MLNavigationController" superclassName="UINavigationController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/MLNavigationController.h"/>
+        </class>
+        <class className="MainTabViewController" superclassName="UITabBarController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/MainTabViewController.h"/>
         </class>
         <class className="MoreViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/MoreViewController.h"/>
@@ -1224,6 +1484,9 @@
                 <relationship kind="outlet" name="headerWaysView" candidateClass="SearchWaysView"/>
                 <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
             </relationships>
+        </class>
+        <class className="SDSegmentedControl" superclassName="UISegmentedControl">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SDSegmentedControl.h"/>
         </class>
         <class className="SLGlowingTextField" superclassName="UITextField">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/SLGlowingTextField.h"/>
@@ -1284,7 +1547,7 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="zBl-3a-Rhe"/>
-        <segue reference="gR0-V1-YgE"/>
+        <segue reference="Uxi-36-NKy"/>
+        <segue reference="NYg-AB-b5l"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -11,10 +11,11 @@
 #import "NiftyButton.h"
 #import "SinaWeibo.h"
 #import "TCWBEngine.h"
+#import "MWPhotoBrowser.h"
 
 @class PopView;
 
-@interface JingdianDetailViewController : UIViewController<UIGestureRecognizerDelegate,UIActionSheetDelegate,SinaWeiboRequestDelegate>
+@interface JingdianDetailViewController : UIViewController<UIGestureRecognizerDelegate,UIActionSheetDelegate,SinaWeiboRequestDelegate,MWPhotoBrowserDelegate,SinaWeiboDelegate>
 
 @property (nonatomic, strong) NSDictionary *curData;
 @property (nonatomic, strong) UIScrollView *scrollView;

@@ -48,6 +48,13 @@
     // This method is called when the server has determined that it
     // has enough information to create the NSURLResponse.
     [_receivedData setLength:0];
+    
+    NSInteger statusCode = [((NSHTTPURLResponse *)response) statusCode];
+    if (statusCode > 400)
+    {
+        [connection cancel];  // stop connecting; no more delegate messages
+        [_delegate chengshiRequestFinished:nil withError:@"网络连接失败！"];
+    }
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data

@@ -151,10 +151,16 @@
 }
 
 -(void) forecastWeatherRequestFinished:(NSDictionary*)data withError:(NSString*)error{
+    NSDictionary *dict=nil;
     if (error) {
         [SVProgressHUD showErrorWithStatus:error];
+        dict=[[NSUserDefaults standardUserDefaults] objectForKey:@"ForecastData"];
     }else{
-        NSDictionary *dict=[data objectForKey:@"weatherinfo"];
+        dict=[data objectForKey:@"weatherinfo"];
+        [[NSUserDefaults standardUserDefaults] setObject:dict forKey:@"ForecastData"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+    if (dict) {
         [_forecastWeatherView fillViewWith:dict];
         [_curWeatherView fillViewWith:dict];
         NSString *dateTime=[NSString stringWithFormat:@"%@ %@",[dict objectForKey:@"date_y"],[dict objectForKey:@"week"]];
@@ -164,10 +170,17 @@
 
 -(void) dayWeatherRequestFinished:(NSDictionary*)data withError:(NSString*)error{
     [SVProgressHUD dismiss];
+    NSDictionary *dict=nil;
     if (error) {
         [SVProgressHUD showErrorWithStatus:error];
+        dict=[[NSUserDefaults standardUserDefaults] objectForKey:@"CurDayData"];
     }else{
-        [_curWeatherView fillCurrentTempWith:[data objectForKey:@"weatherinfo"]];
+        dict=[data objectForKey:@"weatherinfo"];
+        [[NSUserDefaults standardUserDefaults] setObject:dict forKey:@"CurDayData"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+    if (dict) {
+        [_curWeatherView fillCurrentTempWith:dict];
     }
 }
 

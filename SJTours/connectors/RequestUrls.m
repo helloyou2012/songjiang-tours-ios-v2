@@ -8,7 +8,7 @@
 
 #import "RequestUrls.h"
 
-static NSString *DOMIN_NAME = @"http://ly.songjiang.gov.cn:9080/";
+static NSString *DOMIN_NAME = @"http://112.124.40.118:8080/ToursManager/";
 
 @implementation RequestUrls
 
@@ -57,6 +57,10 @@ static NSString *DOMIN_NAME = @"http://ly.songjiang.gov.cn:9080/";
 
 + (NSString*)publicPlaceList{
     return [DOMIN_NAME stringByAppendingString:@"publicplace/list.json"];
+}
+
++ (NSString*)appList{
+    return [DOMIN_NAME stringByAppendingString:@"app/list.json"];
 }
 
 @end

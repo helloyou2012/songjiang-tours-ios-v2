@@ -28,8 +28,7 @@
 
 - (void)createView:(NSDictionary *)dict{
     self.textLabel.text=[dict objectForKey:@"tfline"];
-    NSString *detail=[NSString stringWithFormat:@"%@-%@",[dict objectForKey:@"tffirstexpress"],[dict objectForKey:@"tflastexpress"]];
-    self.detailTextLabel.text=detail;
+    self.detailTextLabel.text=[NSString stringWithFormat:@"途径：%@",[dict objectForKey:@"tfintervaltime"]];
     self.textLabel.textColor=[UIColor blackColor];
     self.textLabel.highlightedTextColor=[UIColor blackColor];
     self.detailTextLabel.textColor=[UIColor lightGrayColor];

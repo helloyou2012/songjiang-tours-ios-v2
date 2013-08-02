@@ -1,45 +1,36 @@
 //
-//  GonglueViewController.m
+//  CanyinViewController.m
 //  SJTours
 //
-//  Created by ZhenzhenXu on 4/18/13.
+//  Created by ZhenzhenXu on 7/23/13.
 //  Copyright (c) 2013 ZhenzhenXu. All rights reserved.
 //
 
-#import "GonglueViewController.h"
-#import "GonglueCell.h"
+#import "CanyinViewController.h"
+#import "JingdianCell.h"
 #import "SVProgressHUD.h"
 #import "RequestUrls.h"
-#import "GonglueModelManager.h"
+#import "ViewSpotsModelManager.h"
 
 #define PAGE_COUNT 10
 
-@implementation GonglueViewController
+@implementation CanyinViewController
 
 @synthesize curPage=_curPage;
 @synthesize reloading=_reloading;
 @synthesize isEnding=_isEnding;
 @synthesize refreshHeaderView=_refreshHeaderView;
-@synthesize gonglueRequest=_gonglueRequest;
+@synthesize jingdianRequest=_jingdianRequest;
 @synthesize selectedIndex=_selectedIndex;
 @synthesize dictType=_dictType;
+@synthesize modelManager=_modelManager;
 @synthesize segmentedControl=_segmentedControl;
-
-//主题，天数，其他
-
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
 
 - (void)didReceiveMemoryWarning
 {
     // Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
+    
     // Release any cached data, images, etc that aren't in use.
 }
 
@@ -48,19 +39,19 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    //    UIColor *background = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"weibo_bg"]];
-    //    self.tableView.backgroundColor = background;
-    //    self.tableView.separatorColor=[UIColor colorWithRed:0.901961f green:0.901961f blue:0.901961f alpha:1.0f];
+    self.title=[_dictType objectForKey:@"name"];
     
     UIColor *background=[UIColor colorWithRed:0.949f green:0.949f blue:0.949f alpha:1.0f];
     self.tableView.backgroundColor = background;
     self.tableView.separatorColor=[UIColor colorWithRed:0.89f green:0.89f blue:0.89f alpha:1.0f];
     
+    _modelManager=[[ViewSpotsModelManager alloc] initWith:[_dictType objectForKey:@"filename"]];
+    [self.tableView reloadData];
+    
     _curPage = 1;
     _isEnding=NO;
-    _gonglueRequest=[[GonglueRequest alloc] init];
-    _gonglueRequest.delegate=self;
+    _jingdianRequest=[[JingdianRequest alloc] init];
+    _jingdianRequest.delegate=self;
     [self setupEGORefresh];
     [self reloadTableViewDataSource];
 }
@@ -73,7 +64,7 @@
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
-    [_gonglueRequest.connection cancel];
+    [_jingdianRequest.connection cancel];
     _reloading=NO;
 }
 
@@ -81,15 +72,6 @@
 {
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-
-- (IBAction)segmentDidChange:(id)sender
-{
-    if (_gonglueRequest&&_gonglueRequest.connection) {
-        [_gonglueRequest.connection cancel];
-        _reloading=NO;
-    }
-    [self reloadTableViewDataSource];
 }
 
 #pragma mark - Table view data source
@@ -101,21 +83,19 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    GonglueModelManager *manager=[GonglueModelManager sharedInstance];
     if (_isEnding) {
-        return [manager.mainArray count];
+        return [_modelManager.mainArray count];
     } else {
-        return [manager.mainArray count] + 1;
+        return [_modelManager.mainArray count] + 1;
     }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    GonglueModelManager *manager=[GonglueModelManager sharedInstance];
     UIView *bgColorView = [[UIView alloc] init];
     [bgColorView setBackgroundColor:[UIColor colorWithRed:0.9f green:0.9f blue:0.9f alpha:1.0f]];
     
-    if (indexPath.row == [manager.mainArray count]&&!_isEnding) {
+    if (indexPath.row == [_modelManager.mainArray count]&&!_isEnding) {
         UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Load more cell"];
         cell.textLabel.textAlignment = UITextAlignmentCenter;
         cell.textLabel.text = @"加载更多...";
@@ -125,27 +105,30 @@
         [cell setSelectedBackgroundView:bgColorView];
         return cell;
     }else{
-        static NSString *CellIdentifier = @"GonglueCell";
+        static NSString *CellIdentifier = @"JingdianCell";
         
-        GonglueCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        JingdianCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         if (cell == nil) {
-            cell = [[GonglueCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+            cell = [[JingdianCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         }
         
         // Configure the cell...
-        NSMutableDictionary *data=[manager.mainArray objectAtIndex:indexPath.row];
+        NSMutableDictionary *data=[_modelManager.mainArray objectAtIndex:indexPath.row];
         [cell createView:data];
         [cell setSelectedBackgroundView:bgColorView];
         return cell;
     }
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 70.0f;
+}
+
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    GonglueModelManager *manager=[GonglueModelManager sharedInstance];
-    if (indexPath.row < [manager.mainArray count]) {
+    if (indexPath.row < [_modelManager.mainArray count]) {
         _selectedIndex=indexPath.row;
         [self performSegueWithIdentifier:@"gotoDetail" sender:self];
     } else {
@@ -155,14 +138,14 @@
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    GonglueModelManager *manager=[GonglueModelManager sharedInstance];
-    [segue.destinationViewController setValue:[manager.mainArray objectAtIndex:_selectedIndex] forKey:@"curData"];
+    [segue.destinationViewController setValue:[_modelManager.mainArray objectAtIndex:_selectedIndex] forKey:@"curData"];
 }
 
 - (void)setupEGORefresh
 {
     if (_refreshHeaderView == nil) {
-        EGORefreshTableHeaderView *view1 = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - self.tableView.bounds.size.height, self.tableView.frame.size.width, self.view.bounds.size.height)];
+        CGFloat tableHeight=self.tableView.bounds.size.height;
+        EGORefreshTableHeaderView *view1 = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, - tableHeight, self.tableView.frame.size.width, tableHeight)];
         view1.delegate = self;
         [self.tableView addSubview:view1];
         _refreshHeaderView = view1;
@@ -172,47 +155,60 @@
 
 - (void)loadMoreData
 {
+    NSString *type_str=@"3";
+    switch (_segmentedControl.selectedSegmentIndex)
+    {
+        case 1:
+            type_str=@"31";
+            break;
+        case 2:
+            type_str=@"32";
+            break;
+    }
     NSMutableDictionary *data=[[NSMutableDictionary alloc] init];
     [data setObject:[NSString stringWithFormat:@"%d",_curPage] forKey:@"page"];
     [data setObject:[NSString stringWithFormat:@"%d",PAGE_COUNT] forKey:@"rows"];
-    
-    if (_segmentedControl.selectedSegmentIndex!=0) {
-        NSString *type=[NSString stringWithFormat:@"%d",_segmentedControl.selectedSegmentIndex];
-        [data setObject:type forKey:@"stype"];
-    }
-    
-    _gonglueRequest.requestUrl=[RequestUrls strategyList];
-    _gonglueRequest.requestData=data;
-    [_gonglueRequest createConnection];
+    [data setObject:type_str forKey:@"type"];
+    _jingdianRequest.requestUrl=[RequestUrls viewportList];
+    _jingdianRequest.requestData=data;
+    [_jingdianRequest createConnection];
 }
 
--(void) gonglueRequestFinished:(NSArray*)data withError:(NSString*)error
+-(void) jingdianRequestFinished:(NSArray*)data withError:(NSString*)error
 {
     _reloading = NO;
-    GonglueModelManager *manager=[GonglueModelManager sharedInstance];
     if (error) {
         [SVProgressHUD showErrorWithStatus:error];
     }else{
         if (_curPage<=1) {
-            [manager.mainArray removeAllObjects];
+            [_modelManager.mainArray removeAllObjects];
         }
         if (data) {
             if (data.count<PAGE_COUNT) {
                 _isEnding=YES;
             }
-            [manager.mainArray addObjectsFromArray:data];
+            [_modelManager.mainArray addObjectsFromArray:data];
         }else{
             _isEnding=YES;
         }
         
-        if (_curPage==1&&[manager.mainArray count]==0) {
+        if (_curPage==1&&[_modelManager.mainArray count]==0) {
             [SVProgressHUD showErrorWithStatus:@"暂时没有数据"];
         }else{
             _curPage++;
-            [manager saveData];
+            [_modelManager saveData];
             [self.tableView reloadData];
         }
     }
+}
+
+- (IBAction)segmentDidChange:(id)sender
+{
+    if (_jingdianRequest&&_jingdianRequest.connection) {
+        [_jingdianRequest.connection cancel];
+        _reloading=NO;
+    }
+    [self reloadTableViewDataSource];
 }
 
 #pragma mark Data Source Loading / Reloading Methods
@@ -260,3 +256,4 @@
 }
 
 @end
+

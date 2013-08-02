@@ -20,6 +20,14 @@
     </dict>
     <dict>
         <key>name</key>
+        <string>应用推荐</string>
+        <key>image</key>
+        <string>more_app</string>
+        <key>pushIdentifier</key>
+        <string>gotoApps</string>
+    </dict>
+    <dict>
+        <key>name</key>
         <string>关于我们</string>
         <key>image</key>
         <string>more_guanyu</string>

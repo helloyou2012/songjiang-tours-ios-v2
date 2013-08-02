@@ -1,31 +1,27 @@
 //
-//  GonglueViewController.m
+//  AppsViewController.m
 //  SJTours
 //
-//  Created by ZhenzhenXu on 4/18/13.
+//  Created by ZhenzhenXu on 7/4/13.
 //  Copyright (c) 2013 ZhenzhenXu. All rights reserved.
 //
 
-#import "GonglueViewController.h"
-#import "GonglueCell.h"
+#import "AppsViewController.h"
 #import "SVProgressHUD.h"
 #import "RequestUrls.h"
-#import "GonglueModelManager.h"
+#import "AppModelManager.h"
+#import "AppCell.h"
 
 #define PAGE_COUNT 10
 
-@implementation GonglueViewController
+@implementation AppsViewController
 
 @synthesize curPage=_curPage;
 @synthesize reloading=_reloading;
 @synthesize isEnding=_isEnding;
 @synthesize refreshHeaderView=_refreshHeaderView;
-@synthesize gonglueRequest=_gonglueRequest;
+@synthesize appRequest=_appRequest;
 @synthesize selectedIndex=_selectedIndex;
-@synthesize dictType=_dictType;
-@synthesize segmentedControl=_segmentedControl;
-
-//主题，天数，其他
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -40,6 +36,7 @@
 {
     // Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
+    
     // Release any cached data, images, etc that aren't in use.
 }
 
@@ -59,8 +56,8 @@
     
     _curPage = 1;
     _isEnding=NO;
-    _gonglueRequest=[[GonglueRequest alloc] init];
-    _gonglueRequest.delegate=self;
+    _appRequest=[[AppRequest alloc] init];
+    _appRequest.delegate=self;
     [self setupEGORefresh];
     [self reloadTableViewDataSource];
 }
@@ -73,7 +70,7 @@
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
-    [_gonglueRequest.connection cancel];
+    [_appRequest.connection cancel];
     _reloading=NO;
 }
 
@@ -81,15 +78,6 @@
 {
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-
-- (IBAction)segmentDidChange:(id)sender
-{
-    if (_gonglueRequest&&_gonglueRequest.connection) {
-        [_gonglueRequest.connection cancel];
-        _reloading=NO;
-    }
-    [self reloadTableViewDataSource];
 }
 
 #pragma mark - Table view data source
@@ -101,7 +89,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    GonglueModelManager *manager=[GonglueModelManager sharedInstance];
+    AppModelManager *manager=[AppModelManager sharedInstance];
     if (_isEnding) {
         return [manager.mainArray count];
     } else {
@@ -111,7 +99,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    GonglueModelManager *manager=[GonglueModelManager sharedInstance];
+    AppModelManager *manager=[AppModelManager sharedInstance];
     UIView *bgColorView = [[UIView alloc] init];
     [bgColorView setBackgroundColor:[UIColor colorWithRed:0.9f green:0.9f blue:0.9f alpha:1.0f]];
     
@@ -125,11 +113,11 @@
         [cell setSelectedBackgroundView:bgColorView];
         return cell;
     }else{
-        static NSString *CellIdentifier = @"GonglueCell";
+        static NSString *CellIdentifier = @"AppCell";
         
-        GonglueCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        AppCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         if (cell == nil) {
-            cell = [[GonglueCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+            cell = [[AppCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         }
         
         // Configure the cell...
@@ -144,19 +132,20 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    GonglueModelManager *manager=[GonglueModelManager sharedInstance];
+    AppModelManager *manager=[AppModelManager sharedInstance];
     if (indexPath.row < [manager.mainArray count]) {
-        _selectedIndex=indexPath.row;
-        [self performSegueWithIdentifier:@"gotoDetail" sender:self];
+        AppModelManager *manager=[AppModelManager sharedInstance];
+        NSDictionary *curData=[manager.mainArray objectAtIndex:indexPath.row];
+        NSString *url=[curData objectForKey:@"alink"];
+        if (url!=nil&&url.length>0) {
+            if (![url hasPrefix:@"http"]) {
+                url=[NSString stringWithFormat:@"http://%@",url];
+            }
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
+        }
     } else {
         [self loadMoreData];
     }
-}
-
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    GonglueModelManager *manager=[GonglueModelManager sharedInstance];
-    [segue.destinationViewController setValue:[manager.mainArray objectAtIndex:_selectedIndex] forKey:@"curData"];
 }
 
 - (void)setupEGORefresh
@@ -175,21 +164,15 @@
     NSMutableDictionary *data=[[NSMutableDictionary alloc] init];
     [data setObject:[NSString stringWithFormat:@"%d",_curPage] forKey:@"page"];
     [data setObject:[NSString stringWithFormat:@"%d",PAGE_COUNT] forKey:@"rows"];
-    
-    if (_segmentedControl.selectedSegmentIndex!=0) {
-        NSString *type=[NSString stringWithFormat:@"%d",_segmentedControl.selectedSegmentIndex];
-        [data setObject:type forKey:@"stype"];
-    }
-    
-    _gonglueRequest.requestUrl=[RequestUrls strategyList];
-    _gonglueRequest.requestData=data;
-    [_gonglueRequest createConnection];
+    _appRequest.requestUrl=[RequestUrls appList];
+    _appRequest.requestData=data;
+    [_appRequest createConnection];
 }
 
--(void) gonglueRequestFinished:(NSArray*)data withError:(NSString*)error
+-(void) appRequestFinished:(NSArray*)data withError:(NSString*)error
 {
     _reloading = NO;
-    GonglueModelManager *manager=[GonglueModelManager sharedInstance];
+    AppModelManager *manager=[AppModelManager sharedInstance];
     if (error) {
         [SVProgressHUD showErrorWithStatus:error];
     }else{

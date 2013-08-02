@@ -11,12 +11,10 @@
 #import "SearchTextField.h"
 #import "MenuGroupView.h"
 #import "JingdianRequest.h"
-#import "PublicPlaceRequest.h"
 
 @class ViewSpotsModelManager;
-@class PublicPlaceModelManager;
 
-@interface DituViewController : UIViewController<BMKMapViewDelegate,MenuGroupViewDelegate,UITextFieldDelegate,JingdianRequestDelegage,PublicPlaceRequestDelegage>
+@interface DituViewController : UIViewController<BMKMapViewDelegate,MenuGroupViewDelegate,UITextFieldDelegate,JingdianRequestDelegage,BMKSearchDelegate>
 
 @property (nonatomic, strong) IBOutlet BMKMapView *mapView;
 @property (nonatomic, assign) BOOL isSetMapSpan;
@@ -26,16 +24,15 @@
 @property (nonatomic, strong) NSMutableArray *annotationArray;
 
 @property (nonatomic, strong) JingdianRequest *jingdianRequest;
-@property (nonatomic, strong) PublicPlaceRequest *publicRequest;
 @property (nonatomic, strong) NSDictionary *curSearchDict;
-@property (nonatomic, strong) NSDictionary *curViewDict;
+@property (nonatomic, strong) NSMutableDictionary *curViewDict;
 @property (nonatomic, strong) ViewSpotsModelManager *manager;
-@property (nonatomic, strong) PublicPlaceModelManager *public_manager;
 @property (nonatomic, strong) UIButton *compassBtn;
+
+@property (nonatomic, strong) BMKSearch* search;
 
 - (void)setMapRegionWithCoordinate:(CLLocationCoordinate2D)coordinate;
 - (void)createViewSpots:(NSArray*)dataArray;
-- (void)createPublicPlace:(NSArray*)dataArray;
 
 - (void)registerForKeyboardNotifications;
 - (void)createSearchMainView;

@@ -30,17 +30,13 @@
 @synthesize curViewDict=_curViewDict;
 @synthesize manager=_manager;
 @synthesize compassBtn=_compassBtn;
-@synthesize public_manager=_public_manager;
-@synthesize publicRequest=_publicRequest;
+@synthesize search=_search;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
     _annotationArray=[[NSMutableArray alloc] init];
-    _publicRequest=[[PublicPlaceRequest alloc] init];
-    _publicRequest.delegate=self;
-    _public_manager=[PublicPlaceModelManager sharedInstance];
     
     [self.view bringSubviewToFront:_backView];
     [self registerForKeyboardNotifications];
@@ -69,6 +65,9 @@
     _jingdianRequest.requestUrl=[RequestUrls viewportList];
     _jingdianRequest.requestData=data;
     [_jingdianRequest createConnection];
+    
+    _search = [[BMKSearch alloc] init];
+    _search.delegate=self;
 }
 
 - (void)compassBtnClicked{
@@ -173,9 +172,12 @@
         _jingdianRequest.requestData=data;
         [_jingdianRequest createConnection];
     }else{
-        _publicRequest.requestUrl=[RequestUrls publicPlaceList];
-        _publicRequest.requestData=data;
-        [_publicRequest createConnection];
+        if (_mapView.userLocation!=nil) {
+            [_search poiSearchNearBy:[dict objectForKey:@"name"] center:_mapView.userLocation.coordinate radius:1000 pageIndex:0];
+        }else{
+            [SVProgressHUD showErrorWithStatus:@"未获取到当前位置！"];
+        }
+        
     }
 }
 
@@ -232,7 +234,11 @@
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{
     [textField resignFirstResponder];
-    
+    if (_mapView.userLocation!=nil) {
+        [_search poiSearchNearBy:textField.text center:_mapView.userLocation.coordinate radius:1000 pageIndex:0];
+    }else{
+        [SVProgressHUD showErrorWithStatus:@"未获取到当前位置！"];
+    }
     return NO;
 }
 
@@ -272,23 +278,6 @@
     }
 }
 
-- (void)createPublicPlace:(NSArray*)dataArray{
-    NSArray* array = [NSArray arrayWithArray:_mapView.annotations];
-	[_mapView removeAnnotations:array];
-    [_annotationArray removeAllObjects];
-    
-    CLLocationCoordinate2D curLacation=CLLocationCoordinate2DMake(31, 121.24);
-    BMKCoordinateSpan theSpan=BMKCoordinateSpanMake(0.1, 0.1);
-    BMKCoordinateRegion viewRegion=BMKCoordinateRegionMake(curLacation, theSpan);
-    [_mapView setRegion:viewRegion];
-    
-    for (NSDictionary *dict in dataArray) {
-        PublicPlaceAnnotation *annotation=[[PublicPlaceAnnotation alloc] initWith:dict];
-        [_annotationArray addObject:annotation];
-        [_mapView addAnnotation:annotation];
-    }
-}
-
 // Override
 - (BMKAnnotationView *)mapView:(BMKMapView *)mapView viewForAnnotation:(id <BMKAnnotation>)annotation
 {
@@ -321,22 +310,18 @@
 	}
     if ([annotation isKindOfClass:[PublicPlaceAnnotation class]]) {
 		BMKPinAnnotationView *newAnnotation = [[BMKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"myAnnotation"];
-		newAnnotation.pinColor = BMKPinAnnotationColorPurple;
 		newAnnotation.animatesDrop = YES;
 		newAnnotation.draggable = NO;
-        NSString *imageUrl=@"mark";
-        if (((PublicPlaceAnnotation*)annotation).dictData) {
-            NSDictionary *type=[((PublicPlaceAnnotation*)annotation).dictData objectForKey:@"ptype"];
-            imageUrl=[NSString stringWithFormat:@"mark-%@",[type objectForKey:@"id"]];
-            
-            UIButton *leftView=[[UIButton alloc] initWithFrame:CGRectMake(0, 0, 24, 24)];
-            [leftView setImage:[UIImage imageNamed:@"poi_detail_route"] forState:UIControlStateNormal];
-            leftView.showsTouchWhenHighlighted=YES;
-            leftView.tag=[_annotationArray indexOfObject:annotation];
-            [leftView addTarget:self action:@selector(viewPublicRouteClicked:) forControlEvents:UIControlEventTouchUpInside];
-            newAnnotation.leftCalloutAccessoryView=leftView;
-        }
+        
+        UIButton *leftView=[[UIButton alloc] initWithFrame:CGRectMake(0, 0, 24, 24)];
+        [leftView setImage:[UIImage imageNamed:@"poi_detail_route"] forState:UIControlStateNormal];
+        leftView.showsTouchWhenHighlighted=YES;
+        leftView.tag=[_annotationArray indexOfObject:annotation];
+        [leftView addTarget:self action:@selector(viewPublicRouteClicked:) forControlEvents:UIControlEventTouchUpInside];
+        
+        NSString *imageUrl=[NSString stringWithFormat:@"icon_mark%d", leftView.tag+1];
         newAnnotation.image=[UIImage imageNamed:imageUrl];
+        newAnnotation.leftCalloutAccessoryView=leftView;
 		return newAnnotation;
 	}
 	return nil;
@@ -360,28 +345,11 @@
     }
 }
 
--(void) publicPlaceRequestFinished:(NSArray*)data withError:(NSString*)error
-{
-    if (error) {
-        [SVProgressHUD showErrorWithStatus:error];
-    }else{
-        if (data&&data.count>0) {
-            [_public_manager.mainArray removeAllObjects];
-            [_public_manager.mainArray addObjectsFromArray:data];
-            [_public_manager saveData];
-            
-            [ self createPublicPlace:_public_manager.mainArray];
-        }else{
-            [SVProgressHUD showErrorWithStatus:@"暂时没有数据"];
-        }
-    }
-}
-
 - (IBAction)viewDetailClicked:(id)sender{
     NSInteger tag=((UIButton*)sender).tag;
     ViewportAnnotation *annotation=[_annotationArray objectAtIndex:tag];
     if (annotation.dictData) {
-        _curViewDict=annotation.dictData;
+        _curViewDict=[NSMutableDictionary dictionaryWithDictionary:annotation.dictData];
         [self performSegueWithIdentifier:@"gotoViewport" sender:self];
     }
 }
@@ -390,21 +358,21 @@
     NSInteger tag=((UIButton*)sender).tag;
     ViewportAnnotation *annotation=[_annotationArray objectAtIndex:tag];
     if (annotation.dictData) {
-        _curViewDict=annotation.dictData;
+        _curViewDict=[NSMutableDictionary dictionaryWithDictionary:annotation.dictData];
         [self performSegueWithIdentifier:@"gotoSearchLine" sender:self];
     }
 }
 
 - (IBAction)viewPublicRouteClicked:(id)sender{
-    NSInteger tag=((UIButton*)sender).tag;
-    PublicPlaceAnnotation *annotation=[_annotationArray objectAtIndex:tag];
-    if (annotation.dictData) {
-        _curViewDict=annotation.dictData;
-        [_curViewDict setValue:[annotation.dictData objectForKey:@"ptitle"] forKey:@"vtitle"];
-        [_curViewDict setValue:[annotation.dictData objectForKey:@"lat"] forKey:@"lat"];
-        [_curViewDict setValue:[annotation.dictData objectForKey:@"lng"] forKey:@"lng"];
-        [self performSegueWithIdentifier:@"gotoSearchLine" sender:self];
-    }
+    NSInteger tag=[(UIButton*)sender tag];
+    BMKPointAnnotation* item=[_annotationArray objectAtIndex:tag];
+    
+    _curViewDict=[[NSMutableDictionary alloc] init];
+    [_curViewDict setObject:item.title forKey:@"vtitle"];
+    [_curViewDict setObject:[NSNumber numberWithDouble:item.coordinate.longitude] forKey:@"lng"];
+    [_curViewDict setObject:[NSNumber numberWithDouble:item.coordinate.latitude] forKey:@"lat"];
+    
+    [self performSegueWithIdentifier:@"gotoSearchLine" sender:self];
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -430,6 +398,31 @@
                                   lng, @"lng", nil];
         [[NSUserDefaults standardUserDefaults] setObject:authData forKey:@"UserLocation"];
         [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+}
+
+#pragma mark Search Delegate
+
+- (void)onGetPoiResult:(NSArray*)poiResultList searchType:(int)type errorCode:(int)error
+{
+	if (error == BMKErrorOk) {
+		BMKPoiResult* result = [poiResultList objectAtIndex:0];
+        [_mapView removeAnnotations:_annotationArray];
+        [_annotationArray removeAllObjects];
+        if (result.poiInfoList.count>0) {
+            for (int i = 0; i < result.poiInfoList.count && i<10; i++) {
+                BMKPoiInfo* poi = [result.poiInfoList objectAtIndex:i];
+                PublicPlaceAnnotation* item = [[PublicPlaceAnnotation alloc] init];
+                item.coordinate = poi.pt;
+                item.title = poi.name;
+                [_annotationArray addObject:item];
+                [_mapView addAnnotation:item];
+            }
+        }else{
+            [SVProgressHUD showErrorWithStatus:@"未搜索到！"];
+        }
+	}else{
+        [SVProgressHUD showErrorWithStatus:@"未搜索到！"];
     }
 }
 

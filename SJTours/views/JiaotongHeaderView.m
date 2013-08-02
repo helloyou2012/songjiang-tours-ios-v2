@@ -28,7 +28,7 @@
     _titleLabel.text=[dict objectForKey:@"tfline"];
     _firstTimeLabel.text=[NSString stringWithFormat:@"首班车：%@",[dict objectForKey:@"tffirstexpress"]];
     _lastTimeLabel.text=[NSString stringWithFormat:@"末班车：%@",[dict objectForKey:@"tflastexpress"]];
-    _timeGapLabel.text=[NSString stringWithFormat:@"时间间隔：%@",[dict objectForKey:@"tfintervaltime"]];
+    _timeGapLabel.text=[NSString stringWithFormat:@"途径：%@",[dict objectForKey:@"tfintervaltime"]];
 }
 
 /*

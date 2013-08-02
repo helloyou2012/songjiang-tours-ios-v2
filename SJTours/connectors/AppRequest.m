@@ -1,16 +1,15 @@
 //
-//  ZixunRequest.m
+//  AppRequest.m
 //  SJTours
 //
-//  Created by ZhenzhenXu on 4/28/13.
+//  Created by ZhenzhenXu on 7/4/13.
 //  Copyright (c) 2013 ZhenzhenXu. All rights reserved.
 //
 
-#import "ZixunRequest.h"
+#import "AppRequest.h"
 #import "RequestUrls.h"
 
-@implementation ZixunRequest
-
+@implementation AppRequest
 
 @synthesize receivedData=_receivedData;
 @synthesize requestData=_requestData;
@@ -18,10 +17,11 @@
 @synthesize delegate=_delegate;
 @synthesize connection=_connection;
 
-- (id)initWithUrl:(NSString*)url andData:(NSDictionary*)data{
+- (id)initWithUrl:(NSString*)url andData:(NSMutableDictionary*)data{
     if (self=[super init]) {
         _requestData=data;
         _requestUrl=url;
+        NSLog(@"url:%@\ndata:%@",url,data);
     }
     return self;
 }
@@ -57,7 +57,7 @@
     if (statusCode > 400)
     {
         [connection cancel];  // stop connecting; no more delegate messages
-        [_delegate zixunRequestFinished:nil withError:@"网络连接失败！"];
+        [_delegate appRequestFinished:nil withError:@"网络连接失败！"];
     }
 }
 
@@ -69,7 +69,7 @@
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
-    [_delegate zixunRequestFinished:nil withError:@"加载失败！"];
+    [_delegate appRequestFinished:nil withError:@"加载失败！"];
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
@@ -77,11 +77,12 @@
     // do something with the data
     NSError *jsonError = nil;
     NSArray *json = [NSJSONSerialization JSONObjectWithData:_receivedData options:NSJSONReadingMutableContainers error:&jsonError];
-    if(json!=nil) {
-        [_delegate zixunRequestFinished:json withError:nil];
+    if (json!=nil) {
+        [_delegate appRequestFinished:json withError:nil];
     }else{
-        [_delegate zixunRequestFinished:nil withError:@"没有数据！"];
+        [_delegate appRequestFinished:nil withError:@"没有数据！"];
     }
+    
 }
 
 @end

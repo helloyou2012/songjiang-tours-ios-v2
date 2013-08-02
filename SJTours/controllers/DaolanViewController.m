@@ -144,21 +144,7 @@
 
 - (void)groupClicked:(NSDictionary*)dict{
     _currentDict=dict;
-    if ([[dict objectForKey:@"pushIdentifier"] isEqual:@"gotoViewSpots"]) {
-        [self performSegueWithIdentifier:[dict objectForKey:@"pushIdentifier"] sender:self];
-    }
-    if ([[dict objectForKey:@"pushIdentifier"] isEqual:@"gotoJiaotong"]) {
-        [self performSegueWithIdentifier:[dict objectForKey:@"pushIdentifier"] sender:self];
-    }
-    if ([[dict objectForKey:@"pushIdentifier"] isEqual:@"gotoGonglue"]) {
-        [self performSegueWithIdentifier:[dict objectForKey:@"pushIdentifier"] sender:self];
-    }
-    if ([[dict objectForKey:@"pushIdentifier"] isEqual:@"gotoTianqi"]) {
-        [self performSegueWithIdentifier:[dict objectForKey:@"pushIdentifier"] sender:self];
-    }
-    if ([[dict objectForKey:@"pushIdentifier"] isEqual:@"gotoChengshi"]) {
-        [self performSegueWithIdentifier:[dict objectForKey:@"pushIdentifier"] sender:self];
-    }
+    [self performSegueWithIdentifier:[dict objectForKey:@"pushIdentifier"] sender:self];
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
